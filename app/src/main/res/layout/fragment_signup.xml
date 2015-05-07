@@ -1,0 +1,105 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:gravity="center_vertical" tools:context="com.rubik.bytecodem.SignupFragment">
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/etName"
+        android:padding="10dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/et_bg"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/ivLogo"
+        android:layout_centerHorizontal="true"
+        android:hint="Name" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:padding="10dp"
+        android:background="@drawable/et_bg"
+        android:layout_marginBottom="5dp"
+        android:id="@+id/etEmail"
+        android:hint="Email"
+        android:layout_below="@+id/etName"
+        android:layout_alignLeft="@+id/etPass"
+        android:layout_alignStart="@+id/etPass" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="phone"
+        android:ems="10"
+        android:padding="10dp"
+        android:background="@drawable/et_bg"
+        android:layout_marginBottom="5dp"
+        android:id="@+id/signup_et_phone"
+        android:layout_below="@+id/etEmail"
+        android:layout_alignLeft="@+id/etName"
+        android:hint="Phone no."
+        android:layout_alignStart="@+id/etName" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:padding="10dp"
+        android:background="@drawable/et_bg"
+        android:layout_marginBottom="5dp"
+        android:id="@+id/etPass"
+        android:layout_below="@+id/signup_et_phone"
+        android:layout_alignLeft="@+id/etName"
+        android:hint="Password"
+        android:layout_alignStart="@+id/etName" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:padding="10dp"
+        android:background="@drawable/et_bg"
+        android:layout_marginBottom="5dp"
+        android:id="@+id/update_et_oldpass"
+        android:layout_below="@+id/etPass"
+        android:layout_alignLeft="@+id/etName"
+        android:hint="Confirm Password"
+        android:layout_alignStart="@+id/etName" />
+
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SIGN UP"
+        android:id="@+id/btnSignIn"
+        android:layout_below="@+id/update_et_oldpass"
+        android:layout_alignLeft="@+id/update_et_oldpass"
+        android:layout_alignStart="@+id/update_et_oldpass"
+        android:layout_marginTop="20dp"
+        android:textColor="#fff"
+        android:background="@drawable/btn_primary"
+        android:layout_alignRight="@+id/update_et_oldpass"
+        android:layout_alignEnd="@+id/update_et_oldpass" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="I HAVE AN ACCOUNT"
+        android:id="@+id/btnAlreadyHaveAcc"
+        android:layout_marginTop="10dp"
+        android:textColor="#fff"
+        android:layout_below="@+id/btnSignIn"
+        android:layout_alignLeft="@+id/update_et_oldpass"
+        android:layout_alignStart="@+id/update_et_oldpass"
+        android:background="@drawable/btn_secondary"
+        android:layout_alignRight="@+id/update_et_oldpass"
+        android:layout_alignEnd="@+id/update_et_oldpass" />
+
+</RelativeLayout>
