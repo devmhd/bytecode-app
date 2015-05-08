@@ -1,12 +1,27 @@
 package com.rubik.bytecodem;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class CartActivity extends ActionBarActivity {
@@ -14,6 +29,7 @@ public class CartActivity extends ActionBarActivity {
     ListView lvCart;
     ProgressDialog pb;
     TextView tvTotal;
+    ProgressDialog pd;
 
 
 
@@ -33,23 +49,7 @@ public class CartActivity extends ActionBarActivity {
         lvCart = (ListView) findViewById(R.id.lvCart);
         tvTotal = (TextView) findViewById(R.id.tvcartTotal);
 
-//        if(Global.activeCart == null){
 //
-//            //todo fetch;
-//            pb = ProgressDialog.show(this, "", "Fetching cart...");
-//
-//
-//
-//
-//
-//            pb.dismiss();
-//
-//
-//        } else {
-//
-//
-//            lvCart.setAdapter(new CartListAdapter(this, Global.activeCart));
-//        }
 
         lvCart.setAdapter(new CartListAdapter(this, Global.activeCart));
 
@@ -96,7 +96,49 @@ public class CartActivity extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
 
-            //todo CHECKOUT
+            pd= ProgressDialog.show(this, "", "Checking out...");
+
+            String feedUrl = "https://api.parse.com/1/functions/checkout";
+
+            JsonObjectRequest req = new JsonObjectRequest(feedUrl, new JSONObject(),
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                          //  try {
+
+                                pd.dismiss();
+
+                            Toast.makeText(CartActivity.this, "Checkout done", Toast.LENGTH_SHORT).show();
+
+                                Global.activeCart = new ArrayList<CartEntry>();
+
+                                lvCart.setAdapter(new CartListAdapter(CartActivity.this, Global.activeCart));
+
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                }
+            }){
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    HashMap<String, String> headers = new HashMap<String, String>();
+                    headers.put("X-Parse-Application-Id", "R6kBbmhFNsPv44ekZbLlC6hq7JZ7b4fWT5G3H3GN");
+                    headers.put("Content-Type", "application/json");
+                    headers.put("X-Parse-REST-API-Key", "QHh6SwA97ioIo8ZkmEczrpFr8jZB5G5rYybrlbpO");
+                    headers.put("X-Parse-Session-Token", PreferenceStorage.getSessionToken());
+                    return headers;
+                }
+            };
+
+            VolleySingleton.getInstance(this).getRequestQueue().add(req);
+
+
+
             return true;
         }
 
