@@ -1,20 +1,24 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+<LinearLayout  android:layout_width="match_parent"
+    android:layout_height="wrap_content" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.rubik.bytecodem.ProductDetailActivity">
 
     <ImageView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="200dp"
         android:id="@+id/ivImage"
         android:src="@drawable/ic_launcher"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
+
         android:layout_marginBottom="10dp"
-        android:layout_alignParentEnd="true" />
+         />
 
     <TextView
         android:layout_width="wrap_content"
@@ -22,54 +26,16 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Lilly Pulitzer Elsa Top Lilly Pulitzer Elsa Top Lilly Pulitzer Elsa Top"
         android:id="@+id/tvTitle"
-        android:layout_below="@+id/ivImage"
-        android:layout_alignParentStart="true"
-        android:layout_toStartOf="@+id/tvPrice" />
+        />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
         android:id="@+id/tvPrice"
         android:textColor="#42B092"
-        android:layout_below="@+id/ivImage"
-        android:layout_alignParentEnd="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Remove from cart"
-        android:layout_marginTop="5dp"
-        android:id="@+id/btnRemoveFromCart"
-        android:background="@drawable/btn_secondary"
-        android:textColor="#fff"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/tvPrice" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Update quantity in cart (2)"
-        android:background="@drawable/btn_primary"
-        android:textColor="#fff"
-        android:layout_marginTop="5dp"
-        android:id="@+id/btnUpdateQuantity"
-        android:layout_above="@+id/btnRemoveFromCart"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add to cart"
-        android:id="@+id/btnAddToCart"
-        android:background="@drawable/btn_primary"
-        android:textColor="#fff"
-        android:layout_above="@+id/btnUpdateQuantity"
-        android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/tvPrice" />
+         />
 
     <TextView
         android:layout_width="wrap_content"
@@ -78,8 +44,36 @@
         android:text="description"
         android:id="@+id/tvDescription"
         android:paddingTop="10dp"
-        android:layout_below="@+id/tvTitle"
-        android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/tvPrice" />
+         />
 
-</RelativeLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add to cart"
+        android:id="@+id/btnAddToCart"
+        android:background="@drawable/btn_primary"
+        android:textColor="#fff"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Update quantity in cart (2)"
+        android:background="@drawable/btn_primary"
+        android:textColor="#fff"
+        android:layout_marginTop="15dp"
+        android:id="@+id/btnUpdateQuantity"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Remove from cart"
+        android:layout_marginTop="15dp"
+        android:id="@+id/btnRemoveFromCart"
+        android:background="@drawable/btn_secondary"
+        android:textColor="#fff"
+         />
+
+</LinearLayout>
+</ScrollView>

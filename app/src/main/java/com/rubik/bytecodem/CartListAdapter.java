@@ -38,7 +38,7 @@ public class CartListAdapter extends ArrayAdapter<CartEntry> {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        View rowView = inflater.inflate(R.layout.row_product, parent, false);
+        View rowView = inflater.inflate(R.layout.row_cart_entry, parent, false);
 
         TextView tvTitle = (TextView) rowView.findViewById(R.id.tvTitle);
         TextView tvQuantity = (TextView) rowView.findViewById(R.id.tvQuantity);
@@ -46,6 +46,8 @@ public class CartListAdapter extends ArrayAdapter<CartEntry> {
 
         tvTitle.setText(cart.get(position).product.title);
         tvQuantity.setText("" + cart.get(position).quantity + " in cart");
+
+
         btnRemove.setTag(cart.get(position).product.id);
 
 

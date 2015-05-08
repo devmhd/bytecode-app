@@ -117,6 +117,21 @@ public class PreferenceStorage {
 
 
 
+    public static String getCurrentCardId()
+    {
+        return PreferenceManager.getDefaultSharedPreferences(appContext).getString("CurrentCardId", "");
+    }
+
+    public static boolean setCurrentCardId(String name)
+    {
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(appContext).edit();
+        editor.putString("CurrentCardId", name);
+        return editor.commit();
+
+    }
+
+
+
 
 
 

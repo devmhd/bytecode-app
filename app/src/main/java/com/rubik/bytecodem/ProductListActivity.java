@@ -86,13 +86,15 @@ public class ProductListActivity extends ActionBarActivity {
 
                                 ));
 
+                                Global.productMap.put(products.getJSONObject(i).getString("objectId"), new Integer(i));
+
                             }
 
 
                             //after loading
                             pb.dismiss();
 
-                      lvProducts.setAdapter(new ProductListAdapter(getApplicationContext(),Global.allProducts));
+                            lvProducts.setAdapter(new ProductListAdapter(getApplicationContext(),Global.allProducts));
 
                             lvProducts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                 @Override
@@ -106,7 +108,6 @@ public class ProductListActivity extends ActionBarActivity {
 
                                 }
                             });
-
 
 
                         }
@@ -146,31 +147,180 @@ public class ProductListActivity extends ActionBarActivity {
 
 
 
+        // //////////////////////////////////////////////////////////////////////////////////////////
+
+        String feedUrl2 = "https://api.parse.com/1/classes/Cart?where={\"isOrdered\":false}";
+
+        JsonObjectRequest jsonRequest2 = new JsonObjectRequest(Request.Method.GET, feedUrl2, "",
+                new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+
+
+  //                          Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
+                            JSONArray array = response.getJSONArray("results");
+
+                            JSONObject object = array.getJSONObject(0);
+
+                            String cartId = object.getString("objectId");
+
+                            PreferenceStorage.setCurrentCardId(cartId);
+
+//                            Toast.makeText(getApplicationContext(), cartId, Toast.LENGTH_SHORT).show();
+
+                            ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                            String feedUrl3 = "https://api.parse.com/1/classes/Order?where={\"cart\":{\"__type\":\"Pointer\",\"className\":\"Cart\",\"objectId\":\"" + cartId + "\"}}";
+
+                            JsonObjectRequest jsonRequest3 = new JsonObjectRequest(Request.Method.GET, feedUrl3, "",
+                                    new Response.Listener<JSONObject>() {
+
+                                        @Override
+                                        public void onResponse(JSONObject response) {
+                                            try {
+
+
+                                                //Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
+                                                JSONArray results = response.getJSONArray("results");
+
+
+
+                                                Global.activeCart = new ArrayList<CartEntry>();
+                                                for(int i=0; i<results.length(); ++i){
+
+                                                    JSONObject object = results.getJSONObject(i);
+
+                                                    Global.activeCart.add(new CartEntry(
+
+                                                            Global.allProducts.get(Global.productMap.get(object.getJSONObject("product").getString("objectId"))),
+                                                            object.getInt("quantity"),
+                                                            object.getDouble("subTotal"),
+                                                            object.getString("objectId")
+
+
+                                                    ));
+
+
+                                                }
+
+                                                //Toast.makeText(getApplicationContext(), cartId, Toast.LENGTH_SHORT).show();
+
+
+
+
+
+
+                                            }
+                                            catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+
+                                        }
+
+                                    },
+
+                                    new Response.ErrorListener() {
+
+                                        @Override
+                                        public void onErrorResponse(VolleyError error) {
+                                            Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
+
+                                        }
+                                    }
+
+                            ){
+                                @Override
+                                public Map<String, String> getHeaders() throws AuthFailureError {
+                                    HashMap<String, String> headers = new HashMap<String, String>();
+                                    headers.put("X-Parse-Application-Id", "R6kBbmhFNsPv44ekZbLlC6hq7JZ7b4fWT5G3H3GN");
+                                    headers.put("Content-Type", "application/json");
+                                    headers.put("X-Parse-REST-API-Key", "QHh6SwA97ioIo8ZkmEczrpFr8jZB5G5rYybrlbpO");
+                                    headers.put("X-Parse-Session-Token", PreferenceStorage.getSessionToken());
+                                    return headers;
+                                }
+                            };
+
+
+
+                            VolleySingleton.getInstance(getApplicationContext()).getRequestQueue().add(jsonRequest3);
+
+
+
+
+                        }
+                        catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                },
+
+                new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
+
+                    }
+                }
+
+        ){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("X-Parse-Application-Id", "R6kBbmhFNsPv44ekZbLlC6hq7JZ7b4fWT5G3H3GN");
+                headers.put("Content-Type", "application/json");
+                headers.put("X-Parse-REST-API-Key", "QHh6SwA97ioIo8ZkmEczrpFr8jZB5G5rYybrlbpO");
+                headers.put("X-Parse-Session-Token", PreferenceStorage.getSessionToken());
+                return headers;
+            }
+        };
+
+
+
+        VolleySingleton.getInstance(this).getRequestQueue().add(jsonRequest2);
+
+
+
+
+
+
+
+
+
+
 
 
 
     };
 
-//
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_product_list, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_product_list, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+
+
+
+            startActivity(new Intent(this, CartActivity.class));
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 }

@@ -7,9 +7,13 @@ public class CartEntry {
 
     public Product product;
     public int quantity;
+    public double subTotal;
+    public String orderID;
 
-    public CartEntry(Product product, int quantity) {
+    public CartEntry(Product product, int quantity, double subTotal, String orderID) {
         this.product = product;
         this.quantity = quantity;
+        this.subTotal = subTotal;
+        this.orderID = orderID;
     }
 }

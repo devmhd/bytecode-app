@@ -6,12 +6,14 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.TextView;
 
 
 public class CartActivity extends ActionBarActivity {
 
     ListView lvCart;
     ProgressDialog pb;
+    TextView tvTotal;
 
 
 
@@ -19,6 +21,8 @@ public class CartActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
+
+        initGUI();
     }
 
 
@@ -27,27 +31,37 @@ public class CartActivity extends ActionBarActivity {
     void initGUI(){
 
         lvCart = (ListView) findViewById(R.id.lvCart);
+        tvTotal = (TextView) findViewById(R.id.tvcartTotal);
 
-        if(Global.activeCart == null){
+//        if(Global.activeCart == null){
+//
+//            //todo fetch;
+//            pb = ProgressDialog.show(this, "", "Fetching cart...");
+//
+//
+//
+//
+//
+//            pb.dismiss();
+//
+//
+//        } else {
+//
+//
+//            lvCart.setAdapter(new CartListAdapter(this, Global.activeCart));
+//        }
 
-            //todo fetch;
-            pb = ProgressDialog.show(this, "", "Fetching cart...");
+        lvCart.setAdapter(new CartListAdapter(this, Global.activeCart));
 
 
 
+        double sum = 0;
+        for (int i=0; i<Global.activeCart.size(); ++i){
 
-
-            pb.dismiss();
-
-
-        } else {
-
-
-            lvCart.setAdapter(new CartListAdapter(this, Global.activeCart));
+            sum += Global.activeCart.get(i).subTotal;
         }
 
-
-
+        tvTotal.setText("Total Tk. " + sum);
 
 
 
