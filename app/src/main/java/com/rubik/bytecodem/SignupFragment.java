@@ -3,6 +3,7 @@ package com.rubik.bytecodem;
 
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.text.TextUtils;
@@ -11,6 +12,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -57,7 +69,53 @@ public class SignupFragment extends Fragment {
 
                 if(validateInputs()){
 
-                //TODO go ahead
+
+                    String feedUrl = "https://api.parse.com/1/users";
+                    HashMap<String, String> params = new HashMap<String, String>();
+                    params.put("email", email);
+                    params.put("password", pass);
+                    params.put("username",name);
+                    JsonObjectRequest req = new JsonObjectRequest(feedUrl, new JSONObject(params),
+                            new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    try {
+
+
+
+                                        PreferenceStorage.setFirstLaunch();
+
+                                        PreferenceStorage.setSessionToken(response.getString("sessionToken"));
+                                        PreferenceStorage.setLoggerName(response.getString("username"));
+
+
+                                        PreferenceStorage.setLoggedIn(true);
+
+                                        startActivity(new Intent(getActivity(), ProductListActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+
+
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+
+                        }
+                    }){
+                        @Override
+                        public Map<String, String> getHeaders() throws AuthFailureError {
+                            HashMap<String, String> headers = new HashMap<String, String>();
+                            headers.put("X-Parse-Application-Id", "R6kBbmhFNsPv44ekZbLlC6hq7JZ7b4fWT5G3H3GN");
+                            headers.put("Content-Type", "application/json");
+                            headers.put("X-Parse-REST-API-Key", "QHh6SwA97ioIo8ZkmEczrpFr8jZB5G5rYybrlbpO");
+                            return headers;
+                        }
+                    };
+
+                    VolleySingleton.getInstance(getActivity()).getRequestQueue().add(req);
 
                 }
 

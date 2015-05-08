@@ -102,6 +102,20 @@ public class PreferenceStorage {
     }
 
 
+    public static String getSessionToken()
+    {
+        return PreferenceManager.getDefaultSharedPreferences(appContext).getString("SessionToken", "");
+    }
+
+    public static boolean setSessionToken(String name)
+    {
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(appContext).edit();
+        editor.putString("SessionToken", name);
+        return editor.commit();
+
+    }
+
+
 
 
 

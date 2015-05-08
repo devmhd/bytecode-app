@@ -37,7 +37,7 @@ public class LaunchActivity extends Activity {
 
             if(PreferenceStorage.isLoggedIn()){
 
-                // TODO goto homescreen
+                startActivity(new Intent(this, ProductListActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
             }else{
                 Intent intent = new Intent(LaunchActivity.this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intent.putExtra("showSignUp", false);
